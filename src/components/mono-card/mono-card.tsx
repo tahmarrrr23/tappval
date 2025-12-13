@@ -7,12 +7,7 @@ export const MonoCard = (props: MonoCardProps) => {
 
   return (
     <div
-      className={`
-        card bg-white border-2 border-black text-black
-        shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-        rounded-sm
-        ${className}
-      `}
+      className={`bg-white border-2 border-black text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-sm ${className}`}
       {...rest}
     >
       {children}
