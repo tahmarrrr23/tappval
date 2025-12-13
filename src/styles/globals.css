@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/correctness/noUnknownProperty: reason */
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: lofi;
