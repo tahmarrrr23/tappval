@@ -36,6 +36,9 @@ importers:
       '@types/react-dom':
         specifier: '19'
         version: 19.2.3(@types/react@19.2.7)
+      daisyui:
+        specifier: ^5.5.13
+        version: 5.5.13
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -425,6 +428,9 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
+  daisyui@5.5.13:
+    resolution: {integrity: sha512-Y1tHPzxU3a/MsArjQ5Bw4DaOnC1IsT9O+M9Wz2NwCw08vuCGhM+xx3ScWfL6IS4YiJXZHh73qNK9GhBWMRKY6Q==}
 
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
@@ -885,6 +891,8 @@ snapshots:
   client-only@0.0.1: {}
 
   csstype@3.2.3: {}
+
+  daisyui@5.5.13: {}
 
   detect-libc@2.1.2: {}
 
