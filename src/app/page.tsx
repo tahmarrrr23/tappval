@@ -18,6 +18,7 @@ async function fetcher(url: string, { arg }: { arg: string }) {
 
 export default function Home() {
   const [url, setUrl] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { trigger, isMutating, data } = useSWRMutation<
     AnalyzeResult,
@@ -30,17 +31,40 @@ export default function Home() {
 
   const handleAnalyze = async () => {
     if (!url) return;
+    setErrorMessage(null);
 
     try {
       await trigger(url);
     } catch (error) {
       console.error(error);
-      alert("エラーが発生しました");
+      setErrorMessage(
+        "An error occurred during analysis. Please check the URL.",
+      );
     }
   };
 
   return (
-    <main className="min-h-screen p-8 flex flex-col items-center gap-12">
+    <main className="min-h-screen p-8 flex flex-col items-center gap-12 relative">
+      {errorMessage && (
+        <div className="toast toast-top toast-end z-50">
+          <div className="alert alert-error rounded-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{errorMessage}</span>
+          </div>
+        </div>
+      )}
       <header className="w-full max-w-6xl flex items-center justify-between border-b-4 pb-4">
         <h1 className="text-5xl font-bold tracking-tighter">Tappy Valley_</h1>
         <div className="flex gap-4">
@@ -69,6 +93,12 @@ export default function Home() {
         <div className="flex-1 w-full">
           <MonoCard className="p-6 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
+              <label
+                htmlFor="url-input"
+                className="text-xs font-bold uppercase tracking-wider text-gray-400"
+              >
+                Target URL
+              </label>
               <input
                 id="url-input"
                 type="url"
@@ -84,8 +114,11 @@ export default function Home() {
                 type="submit"
                 onClick={handleAnalyze}
                 disabled={loading || !url}
-                className="bg-black text-white font-bold py-3 px-8 disabled:opacity-50 disabled:cursor-not-allowed transition-all uppercase tracking-widest border-2 border-transparent hover:border-black hover:bg-white hover:text-black rounded-sm w-full sm:w-auto"
+                className="btn btn-neutral rounded-sm px-8 uppercase tracking-widest w-full sm:w-auto font-bold"
               >
+                {loading && (
+                  <span className="loading loading-spinner loading-sm"></span>
+                )}
                 {loading ? "Processing..." : "Analyze"}
               </button>
             </div>
@@ -101,7 +134,7 @@ export default function Home() {
                 <div className="flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl">
                   {loading ? (
                     <div className="flex flex-col items-center gap-4">
-                      <div className="animate-spin h-12 w-12 border-4 border-black border-t-transparent rounded-full"></div>
+                      <span className="loading loading-spinner loading-lg text-black"></span>
                       <p className="text-black font-bold animate-pulse">
                         CAPTURING...
                       </p>
