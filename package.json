@@ -2,8 +2,8 @@
   "name": "tappy-valley",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
+    "build": "next build --webpack",
+    "dev": "next dev --webpack",
     "format": "biome format --write",
     "lint": "biome check",
     "start": "next start"
