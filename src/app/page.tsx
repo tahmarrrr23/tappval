@@ -120,6 +120,13 @@ export default function Home() {
           </DeviceMock>
         </div>
       </div>
+
+      <footer className="w-full max-w-6xl border-t-2 border-gray-200 pt-8 mt-auto">
+        <p className="text-center text-gray-500 font-mono text-sm">
+          &copy; {new Date().getFullYear()} Fumiya Yamashita. All rights
+          reserved.
+        </p>
+      </footer>
     </main>
   );
 }
