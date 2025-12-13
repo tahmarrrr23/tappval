@@ -13,6 +13,7 @@
     "@lycorp-jp/tappy": "^0.2.1",
     "@radix-ui/react-icons": "^1.3.2",
     "@sparticuz/chromium-min": "^143.0.0",
+    "@vercel/analytics": "^1.6.1",
     "next": "16.0.10",
     "puppeteer-core": "^24.33.0",
     "react": "19",

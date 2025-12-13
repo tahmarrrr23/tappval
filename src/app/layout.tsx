@@ -1,5 +1,6 @@
 import { globalFont } from "@/libs/font";
 import "@/styles/globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function RootLayout({
   children,
@@ -12,7 +13,10 @@ export default function RootLayout({
       data-theme="lofi"
       className={`${globalFont.className} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
