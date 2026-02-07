@@ -1,9 +1,9 @@
 "use client";
 
 import type { AnalyzeResult } from "@lycorp-jp/tappy";
-import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
+import { Alert } from "@/components/alert/alert";
 import { AnalyzeOverlay } from "@/components/analyze-overlay";
 import { DeviceMock } from "@/components/device-mock";
 import { Header } from "@/components/header";
@@ -46,14 +46,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-8 flex flex-col items-center gap-12 relative">
-      {errorMessage && (
-        <div className="toast toast-top toast-end z-50">
-          <div className="alert alert-error rounded-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <CrossCircledIcon />
-            <span>{errorMessage}</span>
-          </div>
-        </div>
-      )}
+      {errorMessage && <Alert message={errorMessage} />}
 
       <Header />
 
