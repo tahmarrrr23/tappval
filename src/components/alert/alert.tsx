@@ -9,7 +9,7 @@ export const Alert = (props: AlertProps) => {
 
   return (
     <div className="toast toast-start" {...rest}>
-      <div className="alert alert-error rounded-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <div className="alert alert-error rounded-sm border-2 border-black shadow-neo">
         <span>{message}</span>
       </div>
     </div>

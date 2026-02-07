@@ -4,6 +4,12 @@
   themes: lofi;
 }
 
+@theme {
+  --shadow-neo: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --spacing-device-w: 390px;
+  --spacing-device-h: 844px;
+}
+
 body {
   background-image:
     linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),

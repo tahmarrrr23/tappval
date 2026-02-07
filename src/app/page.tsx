@@ -4,10 +4,9 @@ import type { AnalyzeResult } from "@lycorp-jp/tappy";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Alert } from "@/components/alert/alert";
-import { AnalyzeOverlay } from "@/components/analyze-overlay";
-import { DeviceMock } from "@/components/device-mock";
+import { Card } from "@/components/card";
+import { DevicePreview } from "@/components/device-preview";
 import { Header } from "@/components/header";
-import { MonoCard } from "@/components/mono-card";
 
 async function fetcher(url: string, { arg }: { arg: string }) {
   const res = await fetch(`${url}?url=${encodeURIComponent(arg)}`);
@@ -52,7 +51,7 @@ export default function Home() {
 
       <div className="flex gap-8 max-w-6xl w-full">
         <div className="flex-1 w-full">
-          <MonoCard className="p-6 flex flex-col gap-4">
+          <Card className="p-6 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="url-input"
@@ -83,35 +82,11 @@ export default function Home() {
                 {loading ? "Processing..." : "Analyze"}
               </button>
             </div>
-          </MonoCard>
+          </Card>
         </div>
 
         <div>
-          <DeviceMock className="relative overflow-hidden bg-white border-4 border-black rounded-md shadow-xl box-content">
-            <div className="w-full h-full overflow-y-auto no-scrollbar bg-gray-50">
-              {data ? (
-                <AnalyzeOverlay result={data} />
-              ) : (
-                <div className="flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl">
-                  {loading ? (
-                    <div className="flex flex-col items-center gap-4">
-                      <span className="loading loading-spinner loading-lg text-black"></span>
-                      <p className="text-black font-bold animate-pulse">
-                        CAPTURING...
-                      </p>
-                    </div>
-                  ) : (
-                    <>
-                      <span className="text-6xl opacity-20">NO DATA</span>
-                      <p className="text-sm uppercase tracking-widest">
-                        Waiting for input...
-                      </p>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-          </DeviceMock>
+          <DevicePreview result={data ?? null} loading={loading} />
         </div>
       </div>
 
