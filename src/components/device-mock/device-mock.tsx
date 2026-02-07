@@ -1,13 +1,18 @@
 import type { AnalyzeResult } from "@lycorp-jp/tappy";
 import Image from "next/image";
+import type { ComponentPropsWithoutRef } from "react";
 import { useRef, useState } from "react";
+import { cn } from "@/libs/cn";
 
-interface DevicePreviewProps {
+export interface DeviceMockProps
+  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
   result: AnalyzeResult | null;
   loading?: boolean;
 }
 
-export const DevicePreview = ({ result, loading }: DevicePreviewProps) => {
+export const DeviceMock = (props: DeviceMockProps) => {
+  const { result, loading, className, ...rest } = props;
+
   const [hoveredElement, setHoveredElement] = useState<
     NonNullable<AnalyzeResult["elements"]>[0] | null
   >(null);
@@ -31,9 +36,13 @@ export const DevicePreview = ({ result, loading }: DevicePreviewProps) => {
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl">
+        <div
+          className={cn(
+            "flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl",
+          )}
+        >
           <div className="flex flex-col items-center gap-4">
-            <span className="loading loading-spinner loading-lg text-black"></span>
+            <span className="loading loading-spinner loading-lg text-black" />
             <p className="text-black font-bold animate-pulse">CAPTURING...</p>
           </div>
         </div>
@@ -42,7 +51,11 @@ export const DevicePreview = ({ result, loading }: DevicePreviewProps) => {
 
     if (!result || !result.screenshot) {
       return (
-        <div className="flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl">
+        <div
+          className={cn(
+            "flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl",
+          )}
+        >
           <span className="text-6xl opacity-20">NO DATA</span>
           <p className="text-sm uppercase tracking-widest">
             Waiting for input...
@@ -100,7 +113,9 @@ export const DevicePreview = ({ result, loading }: DevicePreviewProps) => {
           return (
             <div
               key={`${index}-${el.left}-${el.top}`}
-              className="absolute border-2 transition-all cursor-crosshair"
+              className={cn(
+                "absolute border-2 transition-all cursor-crosshair",
+              )}
               style={{
                 left: el.left,
                 top: el.top,
@@ -131,7 +146,11 @@ export const DevicePreview = ({ result, loading }: DevicePreviewProps) => {
               ),
             }}
           >
-            <div className="bg-black/90 text-white p-3 rounded shadow-xl backdrop-blur-sm border border-white/20 flex flex-col gap-1 min-w-50">
+            <div
+              className={cn(
+                "bg-black/90 text-white p-3 rounded shadow-xl backdrop-blur-sm border border-white/20 flex flex-col gap-1 min-w-50",
+              )}
+            >
               <div className="flex justify-between items-center border-b border-white/20 pb-1 mb-1">
                 <span className="text-xs font-mono text-gray-400">
                   SUCCESS RATE
@@ -165,8 +184,16 @@ export const DevicePreview = ({ result, loading }: DevicePreviewProps) => {
   };
 
   return (
-    <div className="w-device-w h-device-h relative overflow-hidden bg-white border-4 border-black rounded-md shadow-xl box-content">
-      <div className="w-full h-full overflow-y-auto no-scrollbar bg-gray-50">
+    <div
+      className={cn(
+        "w-device-w h-device-h relative overflow-hidden bg-white border-4 border-black rounded-md shadow-xl box-content",
+        className,
+      )}
+      {...rest}
+    >
+      <div
+        className={cn("w-full h-full overflow-y-auto no-scrollbar bg-gray-50")}
+      >
         {renderContent()}
       </div>
     </div>

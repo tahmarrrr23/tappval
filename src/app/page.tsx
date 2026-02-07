@@ -5,7 +5,7 @@ import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Alert } from "@/components/alert/alert";
 import { Card } from "@/components/card";
-import { DevicePreview } from "@/components/device-preview";
+import { DeviceMock } from "@/components/device-mock";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 
@@ -87,7 +87,7 @@ export default function Home() {
         </div>
 
         <div>
-          <DevicePreview result={data ?? null} loading={loading} />
+          <DeviceMock result={data ?? null} loading={loading} />
         </div>
       </div>
 

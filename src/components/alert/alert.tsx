@@ -1,15 +1,27 @@
-import type { ComponentProps } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+import { cn } from "@/libs/cn";
 
-export interface AlertProps extends ComponentProps<"div"> {
+export interface AlertProps extends ComponentPropsWithoutRef<"div"> {
   message: string;
 }
 
 export const Alert = (props: AlertProps) => {
-  const { message, ...rest } = props;
+  const { message, className, ...rest } = props;
 
   return (
-    <div className="toast toast-start" {...rest}>
-      <div className="alert alert-error rounded-sm border-2 border-black shadow-neo">
+    <div
+      className={cn(
+        "toast",
+        "toast-start",
+        "rounded-sm",
+        "border-2",
+        "border-black",
+        "shadow-neo",
+        className,
+      )}
+      {...rest}
+    >
+      <div className={cn("alert alert-error", className)}>
         <span>{message}</span>
       </div>
     </div>
