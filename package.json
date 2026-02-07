@@ -26,7 +26,6 @@
     "@biomejs/biome": "^2.3.12",
     "@sparticuz/chromium": "^143.0.4",
     "@tailwindcss/postcss": "^4.1.18",
-    "@tsconfig/next": "^2.0.5",
     "@types/node": "^25.0.10",
     "@types/react": "19",
     "@types/react-dom": "19",
