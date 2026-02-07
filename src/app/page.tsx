@@ -1,11 +1,12 @@
 "use client";
 
 import type { AnalyzeResult } from "@lycorp-jp/tappy";
-import { CrossCircledIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { AnalyzeOverlay } from "@/components/analyze-overlay";
 import { DeviceMock } from "@/components/device-mock";
+import { Header } from "@/components/header";
 import { MonoCard } from "@/components/mono-card";
 
 async function fetcher(url: string, { arg }: { arg: string }) {
@@ -53,29 +54,8 @@ export default function Home() {
           </div>
         </div>
       )}
-      <header className="w-full max-w-6xl flex items-center justify-between border-b-4 pb-4">
-        <h1 className="text-5xl font-bold tracking-tighter">Tappy Valley_</h1>
-        <div className="flex gap-4">
-          <a
-            href="https://github.com/tahmarrrr23/tappval"
-            className="link link-hover join font-bold"
-            target="_blank"
-            rel="noopener"
-          >
-            Source
-            <ExternalLinkIcon className="join-item" />
-          </a>
-          <a
-            href="https://github.com/yahoojapan/tappy"
-            className="link link-hover join font-bold"
-            target="_blank"
-            rel="noopener"
-          >
-            Tappy
-            <ExternalLinkIcon className="join-item" />
-          </a>
-        </div>
-      </header>
+
+      <Header />
 
       <div className="flex gap-8 max-w-6xl w-full">
         <div className="flex-1 w-full">
