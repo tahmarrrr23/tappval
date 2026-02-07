@@ -6,6 +6,7 @@ import useSWRMutation from "swr/mutation";
 import { Alert } from "@/components/alert/alert";
 import { Card } from "@/components/card";
 import { DevicePreview } from "@/components/device-preview";
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 
 async function fetcher(url: string, { arg }: { arg: string }) {
@@ -90,12 +91,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="w-full max-w-6xl border-t-2 border-gray-200 pt-8 mt-auto">
-        <p className="text-center text-gray-500 font-mono text-sm">
-          &copy; {new Date().getFullYear()} Fumiya Yamashita. All rights
-          reserved.
-        </p>
-      </footer>
+      <Footer className="mt-auto" />
     </main>
   );
 }
