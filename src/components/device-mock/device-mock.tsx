@@ -1,7 +1,8 @@
 import type { AnalyzeResult } from "@lycorp-jp/tappy";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import type { ComponentPropsWithoutRef } from "react";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/libs/cn";
 
 export interface DeviceMockProps
@@ -18,6 +19,22 @@ export const DeviceMock = (props: DeviceMockProps) => {
   >(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const scrollable = el.scrollHeight > el.clientHeight + 2;
+    setCanScroll(scrollable);
+    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+    setIsAtBottom(atBottom);
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+  }, [result, loading, checkScroll]);
 
   const getHoverColor = (rate: number) => {
     if (rate < 0.8)
@@ -33,17 +50,17 @@ export const DeviceMock = (props: DeviceMockProps) => {
     return "var(--color-success)";
   };
 
+  const showScrollHint = canScroll && !isAtBottom && !!result && !loading;
+
   const renderContent = () => {
     if (loading) {
       return (
-        <div
-          className={cn(
-            "flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl",
-          )}
-        >
+        <div className="flex items-center justify-center text-base-content/40 flex-col gap-4 p-8 text-center w-device-w h-device-h">
           <div className="flex flex-col items-center gap-4">
-            <span className="loading loading-spinner loading-lg text-black" />
-            <p className="text-black font-bold animate-pulse">CAPTURING...</p>
+            <span className="loading loading-spinner loading-lg" />
+            <p className="font-bold animate-pulse text-base-content">
+              CAPTURING...
+            </p>
           </div>
         </div>
       );
@@ -51,15 +68,25 @@ export const DeviceMock = (props: DeviceMockProps) => {
 
     if (!result || !result.screenshot) {
       return (
-        <div
-          className={cn(
-            "flex items-center justify-center text-gray-400 flex-col gap-4 p-8 text-center border-2 border-dashed border-gray-300 m-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] rounded-2xl",
-          )}
-        >
-          <span className="text-6xl opacity-20">NO DATA</span>
-          <p className="text-sm uppercase tracking-widest">
-            Waiting for input...
+        <div className="flex items-center justify-center text-base-content/30 flex-col gap-4 p-8 text-center w-device-w h-device-h">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="size-16 opacity-30"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+            />
+          </svg>
+          <p className="text-sm font-bold uppercase tracking-widest">
+            No data yet
           </p>
+          <p className="text-xs opacity-60">Enter a URL and click Analyze</p>
         </div>
       );
     }
@@ -146,13 +173,9 @@ export const DeviceMock = (props: DeviceMockProps) => {
               ),
             }}
           >
-            <div
-              className={cn(
-                "bg-black/90 text-white p-3 rounded shadow-xl backdrop-blur-sm border border-white/20 flex flex-col gap-1 min-w-50",
-              )}
-            >
-              <div className="flex justify-between items-center border-b border-white/20 pb-1 mb-1">
-                <span className="text-xs font-mono text-gray-400">
+            <div className="bg-neutral text-neutral-content p-3 rounded-box shadow-xl backdrop-blur-sm border border-neutral-content/20 flex flex-col gap-1 min-w-50">
+              <div className="flex justify-between items-center border-b border-neutral-content/20 pb-1 mb-1">
+                <span className="text-xs font-mono opacity-60">
                   SUCCESS RATE
                 </span>
                 <span
@@ -165,12 +188,12 @@ export const DeviceMock = (props: DeviceMockProps) => {
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs font-mono">
-                <span className="text-gray-400">Size (px):</span>
+                <span className="opacity-60">Size (px):</span>
                 <span>
                   {Math.round(hoveredElement.width)} x{" "}
                   {Math.round(hoveredElement.height)}
                 </span>
-                <span className="text-gray-400">Size (mm):</span>
+                <span className="opacity-60">Size (mm):</span>
                 <span>
                   {hoveredElement.widthMm.toFixed(1)} x{" "}
                   {hoveredElement.heightMm.toFixed(1)}
@@ -184,17 +207,30 @@ export const DeviceMock = (props: DeviceMockProps) => {
   };
 
   return (
-    <div
-      className={cn(
-        "w-device-w h-device-h relative overflow-hidden bg-white border-4 border-black rounded-md shadow-xl box-content",
-        className,
-      )}
-      {...rest}
-    >
-      <div
-        className={cn("w-full h-full overflow-y-auto no-scrollbar bg-gray-50")}
-      >
-        {renderContent()}
+    <div className={cn("mockup-phone", className)} {...rest}>
+      <div className="mockup-phone-camera" />
+      <div className="mockup-phone-display relative">
+        <div
+          ref={scrollRef}
+          className="w-full h-full overflow-y-auto no-scrollbar bg-base-200"
+          onScroll={checkScroll}
+        >
+          {renderContent()}
+        </div>
+        {/* Scroll hint overlay — inside the phone display */}
+        <div
+          className={cn(
+            "absolute bottom-0 left-0 right-0 pointer-events-none transition-opacity duration-300 z-40",
+            showScrollHint ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <div className="bg-linear-to-t from-black/70 via-black/30 to-transparent px-4 pt-10 pb-4 flex flex-col items-center gap-1">
+            <ChevronDownIcon className="size-5 text-white animate-bounce" />
+            <span className="text-white text-xs font-bold tracking-wider uppercase">
+              Scroll to explore
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

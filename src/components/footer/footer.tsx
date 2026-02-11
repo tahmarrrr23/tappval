@@ -9,18 +9,24 @@ export const Footer = (props: FooterProps) => {
   return (
     <footer
       className={cn(
+        "footer",
+        "footer-center",
+        "bg-base-200",
+        "text-base-content",
+        "p-6",
         "w-full",
         "max-w-6xl",
-        "border-t-2",
-        "border-gray-200",
-        "pt-8",
+        "rounded-box",
         className,
       )}
       {...rest}
     >
-      <p className={cn("text-center", "text-gray-500", "text-sm")}>
-        &copy; {new Date().getFullYear()} Fumiya Yamashita. All rights reserved.
-      </p>
+      <aside>
+        <p className="text-sm">
+          &copy; {new Date().getFullYear()} Fumiya Yamashita. All rights
+          reserved.
+        </p>
+      </aside>
     </footer>
   );
 };

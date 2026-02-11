@@ -9,36 +9,44 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <header
-      className={cn("w-full", "max-w-6xl", "border-b-4", "p-4", className)}
+      className={cn(
+        "navbar bg-base-100 border-b-2 border-base-300 max-w-6xl w-full px-4",
+        className,
+      )}
       {...rest}
     >
-      <div className="flex items-center justify-between">
-        <h1 className="text-5xl font-bold tracking-tighter">
-          <a href="/" className="link no-underline font-bold">
+      <div className="navbar-start">
+        <div className="flex flex-col">
+          <a
+            href="/"
+            className="text-3xl font-bold tracking-tighter hover:opacity-80 transition-opacity"
+          >
             tappval
           </a>
-        </h1>
-
-        <div className="space-x-4">
-          <a
-            href="https://github.com/tahmarrrr23/tappval"
-            className={cn("link", "link-hover", "join", "font-bold")}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Source
-            <ExternalLinkIcon className="join-item" />
-          </a>
-          <a
-            href="https://github.com/yahoojapan/tappy"
-            className={cn("link", "link-hover", "join", "font-bold")}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Tappy
-            <ExternalLinkIcon className="join-item" />
-          </a>
+          <span className="text-xs text-base-content/50 tracking-wide">
+            Playground for Tappy
+          </span>
         </div>
+      </div>
+      <div className="navbar-end gap-1">
+        <a
+          href="https://github.com/tahmarrrr23/tappval"
+          className="btn btn-ghost btn-sm gap-1 font-bold"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Source
+          <ExternalLinkIcon />
+        </a>
+        <a
+          href="https://github.com/yahoojapan/tappy"
+          className="btn btn-ghost btn-sm gap-1 font-bold"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Tappy
+          <ExternalLinkIcon />
+        </a>
       </div>
     </header>
   );

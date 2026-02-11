@@ -10,18 +10,10 @@ export const Alert = (props: AlertProps) => {
 
   return (
     <div
-      className={cn(
-        "toast",
-        "toast-start",
-        "rounded-sm",
-        "border-2",
-        "border-black",
-        "shadow-neo",
-        className,
-      )}
+      className={cn("toast", "toast-top", "toast-end", "z-50", className)}
       {...rest}
     >
-      <div className={cn("alert alert-error", className)}>
+      <div className="alert alert-error shadow-lg">
         <span>{message}</span>
       </div>
     </div>
