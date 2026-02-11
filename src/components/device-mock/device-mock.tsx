@@ -34,7 +34,7 @@ export const DeviceMock = (props: DeviceMockProps) => {
 
   useEffect(() => {
     checkScroll();
-  }, [result, loading, checkScroll]);
+  }, [checkScroll]);
 
   const getHoverColor = (rate: number) => {
     if (rate < 0.8)
@@ -76,6 +76,7 @@ export const DeviceMock = (props: DeviceMockProps) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
+            <title>No data</title>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

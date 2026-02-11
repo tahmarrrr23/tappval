@@ -3,8 +3,6 @@ import { PuppeteerAdapter } from "@lycorp-jp/tappy/adapters";
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 
-const REMOTE_PATH = process.env.CHROMIUM_REMOTE_EXEC_PATH;
-
 const DEVICE: Device = {
   width: 390,
   height: 844,

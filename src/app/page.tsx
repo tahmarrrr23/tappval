@@ -51,6 +51,7 @@ function ResultStats({ data }: { data: AnalyzeResult }) {
             fill="none"
             viewBox="0 0 24 24"
           >
+            <title>Issues</title>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -162,7 +163,7 @@ export default function Home() {
           </div>
 
           {/* Analysis Result Stats */}
-          {data && data.elements && <ResultStats data={data} />}
+          {data?.elements && <ResultStats data={data} />}
         </div>
       </div>
 
