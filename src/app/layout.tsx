@@ -1,4 +1,4 @@
-import { globalFont } from "@/libs/font";
+import { globalFont } from "@/lib/font";
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";

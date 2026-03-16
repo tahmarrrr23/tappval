@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import type { ComponentPropsWithoutRef } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { cn } from "@/libs/cn";
+import { cn } from "@/lib/cn";
 
 export interface DeviceMockProps
   extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
@@ -134,13 +134,13 @@ export const DeviceMock = (props: DeviceMockProps) => {
           className="block w-full h-auto"
           unoptimized
         />
-        {sortedElements.map((el, index) => {
+        {sortedElements.map((el) => {
           const borderColor = getBorderColor(el.tapSuccessRate);
           const isHovered = hoveredElement === el;
 
           return (
             <div
-              key={`${index}-${el.left}-${el.top}`}
+              key={`${el.left}-${el.top}-${el.width}-${el.height}`}
               className={cn(
                 "absolute border-2 transition-all cursor-crosshair",
               )}

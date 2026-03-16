@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/libs/cn";
+import { cn } from "@/lib/cn";
 
 export interface AlertProps extends ComponentPropsWithoutRef<"div"> {
   message: string;

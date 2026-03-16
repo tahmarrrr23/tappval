@@ -1,6 +1,6 @@
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import type { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/libs/cn";
+import { cn } from "@/lib/cn";
 
 export interface HeaderProps extends ComponentPropsWithoutRef<"header"> {}
 
