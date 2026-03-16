@@ -55,11 +55,11 @@ export const DeviceMock = (props: DeviceMockProps) => {
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="flex items-center justify-center text-base-content/40 flex-col gap-4 p-8 text-center w-device-w h-device-h">
+        <div className="flex items-center justify-center text-base-content/40 flex-col gap-4 p-8 text-center flex-1">
           <div className="flex flex-col items-center gap-4">
             <span className="loading loading-spinner loading-lg" />
-            <p className="font-bold animate-pulse text-base-content">
-              CAPTURING...
+            <p className="font-black uppercase tracking-widest text-sm animate-pulse text-base-content">
+              Capturing...
             </p>
           </div>
         </div>
@@ -68,7 +68,7 @@ export const DeviceMock = (props: DeviceMockProps) => {
 
     if (!result || !result.screenshot) {
       return (
-        <div className="flex items-center justify-center text-base-content/30 flex-col gap-4 p-8 text-center w-device-w h-device-h">
+        <div className="flex items-center justify-center text-base-content/30 flex-col gap-4 p-8 text-center flex-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-16 opacity-30"
@@ -84,10 +84,12 @@ export const DeviceMock = (props: DeviceMockProps) => {
               d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
             />
           </svg>
-          <p className="text-sm font-bold uppercase tracking-widest">
+          <p className="text-sm font-black uppercase tracking-widest">
             No data yet
           </p>
-          <p className="text-xs opacity-60">Enter a URL and click Analyze</p>
+          <p className="text-[11px] opacity-50 tracking-wide">
+            Enter a URL and click Analyze
+          </p>
         </div>
       );
     }
@@ -174,13 +176,13 @@ export const DeviceMock = (props: DeviceMockProps) => {
               ),
             }}
           >
-            <div className="bg-neutral text-neutral-content p-3 rounded-box shadow-xl backdrop-blur-sm border border-neutral-content/20 flex flex-col gap-1 min-w-50">
-              <div className="flex justify-between items-center border-b border-neutral-content/20 pb-1 mb-1">
-                <span className="text-xs font-mono opacity-60">
-                  SUCCESS RATE
+            <div className="bg-neutral text-neutral-content p-3 border-2 border-neutral-content/30 shadow-neo-sm flex flex-col gap-1 min-w-50">
+              <div className="flex justify-between items-center border-b-2 border-neutral-content/30 pb-1.5 mb-1.5">
+                <span className="text-[10px] uppercase tracking-widest font-black opacity-60">
+                  Success Rate
                 </span>
                 <span
-                  className="font-bold text-lg"
+                  className="font-black text-lg"
                   style={{
                     color: getBorderColor(hoveredElement.tapSuccessRate),
                   }}
@@ -208,29 +210,32 @@ export const DeviceMock = (props: DeviceMockProps) => {
   };
 
   return (
-    <div className={cn("mockup-phone", className)} {...rest}>
-      <div className="mockup-phone-camera" />
-      <div className="mockup-phone-display relative">
-        <div
-          ref={scrollRef}
-          className="w-full h-full overflow-y-auto no-scrollbar bg-base-200"
-          onScroll={checkScroll}
-        >
-          {renderContent()}
-        </div>
-        {/* Scroll hint overlay — inside the phone display */}
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 right-0 pointer-events-none transition-opacity duration-300 z-40",
-            showScrollHint ? "opacity-100" : "opacity-0",
-          )}
-        >
-          <div className="bg-linear-to-t from-black/70 via-black/30 to-transparent px-4 pt-10 pb-4 flex flex-col items-center gap-1">
-            <ChevronDownIcon className="size-5 text-white animate-bounce" />
-            <span className="text-white text-xs font-bold tracking-wider uppercase">
-              Scroll to explore
-            </span>
-          </div>
+    <div
+      className={cn(
+        "border-2 border-black bg-base-100 shadow-neo flex flex-col relative",
+        className,
+      )}
+      {...rest}
+    >
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto no-scrollbar bg-base-200 flex flex-col"
+        onScroll={checkScroll}
+      >
+        {renderContent()}
+      </div>
+      {/* Scroll hint overlay */}
+      <div
+        className={cn(
+          "absolute bottom-0 left-0 right-0 pointer-events-none transition-opacity duration-300 z-40",
+          showScrollHint ? "opacity-100" : "opacity-0",
+        )}
+      >
+        <div className="bg-linear-to-t from-black/70 via-black/30 to-transparent px-4 pt-10 pb-4 flex flex-col items-center gap-1">
+          <ChevronDownIcon className="size-5 text-white animate-bounce" />
+          <span className="text-white text-[10px] font-black tracking-widest uppercase">
+            Scroll to explore
+          </span>
         </div>
       </div>
     </div>

@@ -10,28 +10,28 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        "navbar bg-base-100 border-b-2 border-base-300 max-w-6xl w-full px-4",
+        "navbar bg-base-100 border-2 border-black shadow-neo max-w-6xl w-full px-6",
         className,
       )}
       {...rest}
     >
       <div className="navbar-start">
-        <div className="flex flex-col">
-          <a
-            href="/"
-            className="text-3xl font-bold tracking-tighter hover:opacity-80 transition-opacity"
-          >
+        <a
+          href="/"
+          className="flex flex-col gap-0.5 hover:opacity-80 transition-opacity"
+        >
+          <span className="text-4xl font-black tracking-tighter leading-none">
             tappval
-          </a>
-          <span className="text-xs text-base-content/50 tracking-wide">
+          </span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-base-content/50 font-bold">
             Playground for Tappy
           </span>
-        </div>
+        </a>
       </div>
-      <div className="navbar-end gap-1">
+      <div className="navbar-end gap-2">
         <a
           href="https://github.com/tahmarrrr23/tappval"
-          className="btn btn-ghost btn-sm gap-1 font-bold"
+          className="btn btn-sm border-2 border-black font-bold uppercase text-xs tracking-wider hover:-translate-y-0.5 hover:shadow-neo-sm active:translate-y-0 active:shadow-none transition-all"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -40,7 +40,7 @@ export const Header = (props: HeaderProps) => {
         </a>
         <a
           href="https://github.com/yahoojapan/tappy"
-          className="btn btn-ghost btn-sm gap-1 font-bold"
+          className="btn btn-sm border-2 border-black font-bold uppercase text-xs tracking-wider hover:-translate-y-0.5 hover:shadow-neo-sm active:translate-y-0 active:shadow-none transition-all"
           target="_blank"
           rel="noopener noreferrer"
         >

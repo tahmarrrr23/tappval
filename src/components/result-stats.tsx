@@ -10,43 +10,48 @@ export function ResultStats({ data }: { data: AnalyzeResult }) {
   const issues = elements.filter((el) => el.tapSuccessRate < 0.8).length;
 
   return (
-    <div className="stats stats-vertical lg:stats-horizontal shadow w-full bg-base-100 border border-base-300">
-      <div className="stat">
-        <div className="stat-title">Tap Targets</div>
-        <div className="stat-value text-2xl">{total}</div>
-        <div className="stat-desc">detected elements</div>
-      </div>
-      <div className="stat">
-        <div className="stat-title">Avg. Success Rate</div>
-        <div className="stat-value text-2xl">{(avgRate * 100).toFixed(1)}%</div>
-        <div className="stat-desc">
-          {avgRate >= 0.95
-            ? "Excellent"
-            : avgRate >= 0.8
-              ? "Needs improvement"
-              : "Poor accessibility"}
+    <div className="border-2 border-black bg-base-100 p-5 shadow-neo">
+      <span className="bg-black text-white text-[10px] uppercase tracking-[0.2em] font-black px-2.5 py-1 inline-block mb-4">
+        Results
+      </span>
+      <div className="grid grid-cols-3 gap-4">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[10px] uppercase tracking-widest text-base-content/50 font-bold">
+            Targets
+          </span>
+          <span className="text-3xl font-black tabular-nums leading-none">
+            {total}
+          </span>
+          <span className="text-[10px] text-base-content/40 tracking-wide">
+            detected
+          </span>
         </div>
-      </div>
-      <div className="stat">
-        <div className="stat-figure text-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="inline-block h-8 w-8 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <title>Issues</title>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"
-            />
-          </svg>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[10px] uppercase tracking-widest text-base-content/50 font-bold">
+            Avg. Rate
+          </span>
+          <span className="text-3xl font-black tabular-nums leading-none">
+            {(avgRate * 100).toFixed(1)}%
+          </span>
+          <span className="text-[10px] text-base-content/40 tracking-wide">
+            {avgRate >= 0.95
+              ? "Excellent"
+              : avgRate >= 0.8
+                ? "Needs improvement"
+                : "Poor accessibility"}
+          </span>
         </div>
-        <div className="stat-title">Issues</div>
-        <div className="stat-value text-2xl text-error">{issues}</div>
-        <div className="stat-desc">below 80% success rate</div>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[10px] uppercase tracking-widest text-base-content/50 font-bold">
+            Issues
+          </span>
+          <span className="text-3xl font-black tabular-nums text-error leading-none">
+            {issues}
+          </span>
+          <span className="text-[10px] text-base-content/40 tracking-wide">
+            below 80%
+          </span>
+        </div>
       </div>
     </div>
   );
