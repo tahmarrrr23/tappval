@@ -16,16 +16,20 @@ export const Header = (props: HeaderProps) => {
       {...rest}
     >
       <div className="navbar-start">
-        <a
-          href="/"
-          className="flex flex-col gap-0.5 hover:opacity-80 transition-opacity"
-        >
-          <span className="text-4xl font-black tracking-tighter leading-none">
-            tappval
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-base-content/50 font-bold">
-            Playground for Tappy
-          </span>
+        <a href="/" className="flex items-center gap-3 transition-all group">
+          <div className="size-10 bg-black flex items-center justify-center shadow-neo-sm group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
+            <span className="text-white text-lg font-black select-none">
+              t.
+            </span>
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <h1 className="text-2xl font-black tracking-tighter leading-none">
+              tappval
+            </h1>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-base-content/50 font-bold">
+              Playground for Tappy
+            </span>
+          </div>
         </a>
       </div>
       <div className="navbar-end gap-2">
