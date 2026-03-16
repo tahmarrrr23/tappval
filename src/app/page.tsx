@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert } from "@/components/alert";
 import { DeviceMock } from "@/components/device-mock";
 import { Footer } from "@/components/footer";
@@ -11,6 +11,7 @@ import { useAnalysis } from "@/hooks/use-analysis";
 export default function Home() {
   const [url, setUrl] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   const { trigger, isMutating: loading, data } = useAnalysis();
 
@@ -18,8 +19,13 @@ export default function Home() {
     if (!url) return;
     setErrorMessage(null);
 
+    const el = previewRef.current;
+    // Subtract border (2px each side) to get the inner content area
+    const width = el ? el.clientWidth - 4 : 390;
+    const height = el ? el.clientHeight - 4 : 844;
+
     try {
-      await trigger(url);
+      await trigger({ url, width, height });
     } catch (error) {
       console.error(error);
       setErrorMessage(
@@ -36,7 +42,7 @@ export default function Home() {
 
       <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 max-w-6xl w-full flex-1 min-h-0 py-8">
         {/* Left column: Device Preview */}
-        <div className="flex flex-col flex-1 min-h-0">
+        <div ref={previewRef} className="flex flex-col flex-1 min-h-0">
           <DeviceMock
             result={data ?? null}
             loading={loading}
