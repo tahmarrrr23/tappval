@@ -42,7 +42,7 @@ export default function Home() {
 
       <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 max-w-6xl w-full flex-1 min-h-0 py-8">
         {/* Left column: Device Preview */}
-        <div ref={previewRef} className="flex flex-col flex-1 min-h-0">
+        <div ref={previewRef} className="flex flex-col flex-2 min-h-0">
           <DeviceMock
             result={data ?? null}
             loading={loading}
@@ -51,7 +51,7 @@ export default function Home() {
         </div>
 
         {/* Right column: Form + Info */}
-        <div className="flex flex-col flex-1 min-w-0">
+        <div className="flex flex-col flex-3 min-w-0">
           {/* URL Input Form */}
           <div className="border-2 border-black bg-base-100 p-5 shadow-neo">
             <span className="bg-black text-white text-[10px] uppercase tracking-[0.2em] font-black px-2.5 py-1 inline-block mb-4">
