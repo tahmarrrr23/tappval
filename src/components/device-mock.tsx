@@ -97,7 +97,7 @@ export const DeviceMock = (props: DeviceMockProps) => {
     const { device, elements, screenshot } = result;
     const imgSrc = screenshot.startsWith("data:")
       ? screenshot
-      : `data:image/png;base64,${screenshot}`;
+      : `data:image/webp;base64,${screenshot}`;
 
     const sortedElements = [...elements]
       .filter((el) => {

@@ -42,21 +42,39 @@ export async function GET(request: Request) {
   const device = buildDevice(searchParams);
 
   const browser = await getBrowser();
-  const page = await browser.newPage();
+  try {
+    const page = await browser.newPage();
 
-  const adapter = new PuppeteerAdapter(page);
-  await adapter.page.setViewport({
-    width: device.width,
-    height: device.height,
-    deviceScaleFactor: device.scaleFactor,
-    isMobile: true,
-  });
-  await adapter.page.goto(url);
+    const adapter = new PuppeteerAdapter(page);
+    await adapter.page.setViewport({
+      width: device.width,
+      height: device.height,
+      deviceScaleFactor: device.scaleFactor,
+      isMobile: true,
+    });
+    await adapter.page.goto(url, {
+      waitUntil: "networkidle2",
+      timeout: 30_000,
+    });
 
-  const tappy = new Tappy(adapter);
-  const result = await tappy.analyze(device);
+    const tappy = new Tappy(adapter);
+    const result = await tappy.analyze(device);
 
-  await browser.close();
+    // tappy の captureBeyondViewport: true はビューポート外のコンテンツを
+    // 繰り返し描画する Chrome バグを踏むため、独自スクリーンショットで差し替え
+    const screenshot = await page.screenshot({
+      fullPage: true,
+      type: "webp",
+      encoding: "base64",
+    });
 
-  return Response.json(result);
+    result.screenshot = screenshot;
+    return Response.json(result);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error occurred";
+    return Response.json({ error: message }, { status: 500 });
+  } finally {
+    await browser.close();
+  }
 }
