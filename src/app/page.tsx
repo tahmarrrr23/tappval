@@ -127,10 +127,10 @@ export default function Home() {
             </section>
 
             {/* Analysis Result Stats */}
-            {data?.elements && <ResultStats data={data} />}
+            {data && <ResultStats data={data} />}
 
             {/* Empty state placeholder for future detailed results */}
-            {!data?.elements && (
+            {!data && (
               <div className="flex min-h-44 flex-1 items-center justify-center p-8 text-center">
                 <div className="max-w-60">
                   <span className="mb-3 block font-mono text-[10px] text-primary/70">

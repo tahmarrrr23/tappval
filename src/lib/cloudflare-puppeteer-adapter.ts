@@ -48,12 +48,31 @@ const ACCEPTED_EVENT_NAMES = [
 
 declare function getEventListeners(element: Element): Record<string, unknown>;
 
+type RectLike = Pick<DOMRect, "left" | "top" | "width" | "height">;
+
+const TAPPABLE_FALLBACK_SELECTOR = [
+  "a",
+  "button",
+  "input",
+  "select",
+  "textarea",
+  "label[for]",
+  "[onclick]",
+  '[role="button"]',
+  '[role="link"]',
+  "[tabindex]",
+].join(",");
+
 // This is Tappy's detector, evaluated through CDP so it can use the DevTools-only
 // getEventListeners API without reading detector.js from a Node.js filesystem.
 function detectTappableElements(
   acceptedTagNames: string[],
   acceptedEventNames: string[],
 ) {
+  if (typeof getEventListeners !== "function") {
+    throw new Error("getEventListeners is unavailable");
+  }
+
   const rectInRect = (small: DOMRect, large: DOMRect) =>
     large.left <= small.left &&
     large.top <= small.top &&
@@ -109,28 +128,101 @@ function detectTappableElements(
   );
 }
 
+function detectTappableElementsFallback(fallbackSelector: string) {
+  const rectInRect = (small: DOMRect, large: DOMRect) =>
+    large.left <= small.left &&
+    large.top <= small.top &&
+    small.right <= large.right &&
+    small.bottom <= large.bottom;
+
+  const isHidden = (element: Element) => {
+    let target: Element | null = element;
+    while (target !== null) {
+      const style = getComputedStyle(target);
+      if (
+        style.display === "none" ||
+        style.visibility === "hidden" ||
+        style.opacity === "0"
+      ) {
+        return true;
+      }
+      target = target.parentElement;
+    }
+    return false;
+  };
+
+  const elements = new Set<Element>();
+  const add = (element: Element) => {
+    if (isHidden(element)) return;
+    const rect = element.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+    elements.add(element);
+  };
+
+  for (const element of document.querySelectorAll(fallbackSelector)) {
+    add(element);
+  }
+
+  for (const element of document.querySelectorAll("label[for]")) {
+    const targetId = element.getAttribute("for");
+    if (targetId && document.getElementById(targetId)) add(element);
+  }
+
+  for (const element of document.querySelectorAll(
+    "body *:not(html, head, link, title, style, script, meta)",
+  )) {
+    if (getComputedStyle(element).cursor === "pointer") add(element);
+  }
+
+  for (const anchor of document.querySelectorAll("a")) {
+    let childIsLargerThanParent = false;
+    const anchorRect = anchor.getBoundingClientRect();
+    for (const child of anchor.children) {
+      const childRect = child.getBoundingClientRect();
+      if (rectInRect(childRect, anchorRect)) continue;
+      if (rectInRect(anchorRect, childRect)) childIsLargerThanParent = true;
+      add(child);
+    }
+    if (!childIsLargerThanParent) add(anchor);
+  }
+
+  return JSON.stringify(
+    [...elements].map((element) => element.getBoundingClientRect()),
+  );
+}
+
 export class CloudflarePuppeteerAdapter extends PuppeteerAdapter {
   public constructor(page: Page) {
     super(page as never);
   }
 
   override async getTappableElements(): Promise<TappableElement[]> {
-    const ratio =
-      (this.page.viewport()?.width ?? 0) /
-      (await this.page.evaluate(() => window.innerWidth));
+    const viewportWidth = this.page.viewport()?.width ?? 0;
+    const innerWidth = await this.page.evaluate(() => window.innerWidth);
+    const ratio = innerWidth > 0 ? viewportWidth / innerWidth : 1;
     const origin = await this.page.evaluate(
       () =>
         document.documentElement.getBoundingClientRect().toJSON() as DOMRect,
     );
     const cdp = await this.page.createCDPSession();
-    const { result } = await cdp.send("Runtime.evaluate", {
+
+    const primaryEvaluation = await cdp.send("Runtime.evaluate", {
       expression: `(${detectTappableElements.toString()})(${JSON.stringify(ACCEPTED_TAG_NAMES)}, ${JSON.stringify(ACCEPTED_EVENT_NAMES)})`,
       includeCommandLineAPI: true,
     });
+    const evaluated =
+      "exceptionDetails" in primaryEvaluation &&
+      primaryEvaluation.exceptionDetails
+        ? await cdp.send("Runtime.evaluate", {
+            expression: `(${detectTappableElementsFallback.toString()})(${JSON.stringify(TAPPABLE_FALLBACK_SELECTOR)})`,
+          })
+        : primaryEvaluation;
+
+    const { result } = evaluated;
 
     if (typeof result.value !== "string") return [];
 
-    return (JSON.parse(result.value) as DOMRect[])
+    return (JSON.parse(result.value) as RectLike[])
       .filter((rect) => rect.width !== 0 && rect.height !== 0)
       .map((rect) => ({
         width: rect.width * ratio,
