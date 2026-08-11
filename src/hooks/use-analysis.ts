@@ -7,7 +7,10 @@ export interface AnalyzeArgs {
   height: number;
 }
 
-async function fetcher(endpoint: string, { arg }: { arg: AnalyzeArgs }) {
+async function fetcher(
+  endpoint: string,
+  { arg }: { arg: AnalyzeArgs },
+): Promise<AnalyzeResult> {
   const params = new URLSearchParams({
     url: arg.url,
     width: String(Math.round(arg.width)),
@@ -17,7 +20,7 @@ async function fetcher(endpoint: string, { arg }: { arg: AnalyzeArgs }) {
   if (!res.ok) {
     throw new Error("Failed to analyze");
   }
-  return res.json();
+  return res.json() as Promise<AnalyzeResult>;
 }
 
 export function useAnalysis() {
