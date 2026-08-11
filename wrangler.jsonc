@@ -7,18 +7,24 @@
   "workers_dev": true,
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "tappval"
-    }
+      "service": "tappval",
+    },
   ],
   "browser": {
-    "binding": "BROWSER"
+    "binding": "BROWSER",
   },
   "observability": {
-    "enabled": true
-  }
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+    },
+    "traces": {
+      "enabled": false,
+    },
+  },
 }
