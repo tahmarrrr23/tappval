@@ -55,23 +55,23 @@ export const DeviceMock = (props: DeviceMockProps) => {
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="flex items-center justify-center text-base-content/40 flex-col gap-4 p-8 text-center flex-1">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center text-base-content/40">
           <div className="flex flex-col items-center gap-4">
-            <span className="loading loading-spinner loading-lg" />
-            <p className="font-black uppercase tracking-widest text-sm animate-pulse text-base-content">
-              Capturing...
+            <span className="loading loading-spinner loading-md text-primary" />
+            <p className="text-sm font-medium text-base-content">
+              Capturing page…
             </p>
           </div>
         </div>
       );
     }
 
-    if (!result || !result.screenshot) {
+    if (!result?.screenshot) {
       return (
-        <div className="flex items-center justify-center text-base-content/30 flex-col gap-4 p-8 text-center flex-1">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center text-base-content/30">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="size-16 opacity-30"
+            className="size-12 text-primary/35"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -84,11 +84,11 @@ export const DeviceMock = (props: DeviceMockProps) => {
               d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
             />
           </svg>
-          <p className="text-sm font-black uppercase tracking-widest">
-            No data yet
+          <p className="text-sm font-medium text-base-content/55">
+            Preview canvas is empty
           </p>
-          <p className="text-[11px] opacity-50 tracking-wide">
-            Enter a URL and click Analyze
+          <p className="max-w-52 text-xs leading-relaxed text-base-content/35">
+            Enter a URL to capture the page and map its tap targets.
           </p>
         </div>
       );
@@ -143,9 +143,7 @@ export const DeviceMock = (props: DeviceMockProps) => {
           return (
             <div
               key={`${el.left}-${el.top}-${el.width}-${el.height}`}
-              className={cn(
-                "absolute border-2 transition-all cursor-crosshair",
-              )}
+              className="absolute cursor-crosshair border-2 transition-colors duration-100"
               style={{
                 left: el.left,
                 top: el.top,
@@ -176,13 +174,13 @@ export const DeviceMock = (props: DeviceMockProps) => {
               ),
             }}
           >
-            <div className="bg-neutral text-neutral-content p-3 border-2 border-neutral-content/30 shadow-neo-sm flex flex-col gap-1 min-w-50">
-              <div className="flex justify-between items-center border-b-2 border-neutral-content/30 pb-1.5 mb-1.5">
-                <span className="text-[10px] uppercase tracking-widest font-black opacity-60">
+            <div className="flex min-w-50 flex-col gap-1 rounded-sm border border-neutral-content/20 bg-neutral p-3 text-neutral-content">
+              <div className="mb-1.5 flex items-center justify-between border-b border-neutral-content/20 pb-1.5">
+                <span className="font-mono text-[10px] font-medium opacity-60">
                   Success Rate
                 </span>
                 <span
-                  className="font-black text-lg"
+                  className="font-mono text-lg font-semibold tabular-nums"
                   style={{
                     color: getBorderColor(hoveredElement.tapSuccessRate),
                   }}
@@ -190,7 +188,7 @@ export const DeviceMock = (props: DeviceMockProps) => {
                   {(hoveredElement.tapSuccessRate * 100).toFixed(2)}%
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs font-mono">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1 font-mono text-xs">
                 <span className="opacity-60">Size (px):</span>
                 <span>
                   {Math.round(hoveredElement.width)} x{" "}
@@ -212,14 +210,29 @@ export const DeviceMock = (props: DeviceMockProps) => {
   return (
     <div
       className={cn(
-        "border-2 border-black bg-base-100 shadow-neo flex flex-col relative",
+        "relative flex flex-col overflow-hidden rounded-md border border-base-300 bg-base-100",
         className,
       )}
       {...rest}
     >
+      <div className="flex h-10 shrink-0 items-center justify-between border-b border-base-300 bg-base-100 px-3.5">
+        <div className="flex items-center gap-2">
+          <span className="size-1.5 rounded-full bg-primary" />
+          <span className="font-mono text-[10px] font-medium text-base-content/60">
+            CAPTURE CANVAS
+          </span>
+        </div>
+        <span className="font-mono text-[10px] text-base-content/35">
+          {loading
+            ? "CAPTURING"
+            : result?.device
+              ? `${result.device.width} × ${result.device.height} PX`
+              : "NO CAPTURE"}
+        </span>
+      </div>
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto no-scrollbar bg-base-200 flex flex-col"
+        className="no-scrollbar flex flex-1 flex-col overflow-y-auto bg-base-200/60"
         onScroll={checkScroll}
       >
         {renderContent()}
@@ -227,13 +240,13 @@ export const DeviceMock = (props: DeviceMockProps) => {
       {/* Scroll hint overlay */}
       <div
         className={cn(
-          "absolute bottom-0 left-0 right-0 pointer-events-none transition-opacity duration-300 z-40",
+          "pointer-events-none absolute right-0 bottom-0 left-0 z-40 transition-opacity duration-200",
           showScrollHint ? "opacity-100" : "opacity-0",
         )}
       >
-        <div className="bg-linear-to-t from-black/70 via-black/30 to-transparent px-4 pt-10 pb-4 flex flex-col items-center gap-1">
-          <ChevronDownIcon className="size-5 text-white animate-bounce" />
-          <span className="text-white text-[10px] font-black tracking-widest uppercase">
+        <div className="flex flex-col items-center gap-1 bg-linear-to-t from-base-content/75 via-base-content/30 to-transparent px-4 pt-10 pb-4">
+          <ChevronDownIcon className="size-4 text-base-100" />
+          <span className="font-mono text-[10px] font-medium text-base-100">
             Scroll to explore
           </span>
         </div>

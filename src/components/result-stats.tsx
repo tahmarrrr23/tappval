@@ -10,30 +10,27 @@ export function ResultStats({ data }: { data: AnalyzeResult }) {
   const issues = elements.filter((el) => el.tapSuccessRate < 0.8).length;
 
   return (
-    <div className="border-2 border-black bg-base-100 p-5 shadow-neo">
-      <span className="bg-black text-white text-[10px] uppercase tracking-[0.2em] font-black px-2.5 py-1 inline-block mb-4">
-        Results
-      </span>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="flex flex-col gap-0.5">
-          <span className="text-[10px] uppercase tracking-widest text-base-content/50 font-bold">
-            Targets
-          </span>
-          <span className="text-3xl font-black tabular-nums leading-none">
+    <section className="flex flex-1 flex-col p-5 sm:p-6" aria-live="polite">
+      <div className="mb-6 flex items-baseline justify-between gap-4">
+        <h2 className="text-sm font-semibold">Analysis summary</h2>
+        <span className="font-mono text-[10px] text-base-content/40">
+          TAP SUCCESS RATE
+        </span>
+      </div>
+      <div className="grid grid-cols-1 divide-y divide-base-300 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div className="flex flex-col gap-1 py-4 sm:py-0 sm:pr-5">
+          <span className="text-xs text-base-content/50">Targets</span>
+          <span className="font-mono text-3xl font-medium leading-none tabular-nums tracking-[-0.04em]">
             {total}
           </span>
-          <span className="text-[10px] text-base-content/40 tracking-wide">
-            detected
-          </span>
+          <span className="text-[11px] text-base-content/40">detected</span>
         </div>
-        <div className="flex flex-col gap-0.5">
-          <span className="text-[10px] uppercase tracking-widest text-base-content/50 font-bold">
-            Avg. Rate
-          </span>
-          <span className="text-3xl font-black tabular-nums leading-none">
+        <div className="flex flex-col gap-1 py-4 sm:px-5 sm:py-0">
+          <span className="text-xs text-base-content/50">Avg. Rate</span>
+          <span className="font-mono text-3xl font-medium leading-none tabular-nums tracking-[-0.04em]">
             {(avgRate * 100).toFixed(1)}%
           </span>
-          <span className="text-[10px] text-base-content/40 tracking-wide">
+          <span className="text-[11px] text-base-content/40">
             {avgRate >= 0.95
               ? "Excellent"
               : avgRate >= 0.8
@@ -41,18 +38,14 @@ export function ResultStats({ data }: { data: AnalyzeResult }) {
                 : "Poor accessibility"}
           </span>
         </div>
-        <div className="flex flex-col gap-0.5">
-          <span className="text-[10px] uppercase tracking-widest text-base-content/50 font-bold">
-            Issues
-          </span>
-          <span className="text-3xl font-black tabular-nums text-error leading-none">
+        <div className="flex flex-col gap-1 py-4 sm:py-0 sm:pl-5">
+          <span className="text-xs text-base-content/50">Issues</span>
+          <span className="font-mono text-3xl font-medium leading-none text-error tabular-nums tracking-[-0.04em]">
             {issues}
           </span>
-          <span className="text-[10px] text-base-content/40 tracking-wide">
-            below 80%
-          </span>
+          <span className="text-[11px] text-base-content/40">below 80%</span>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

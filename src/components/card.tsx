@@ -9,10 +9,10 @@ export const Card = (props: CardProps) => {
   return (
     <div
       className={cn(
-        "border-2",
-        "border-black",
+        "rounded-md",
+        "border",
+        "border-base-300",
         "bg-base-100",
-        "shadow-neo",
         className,
       )}
       {...rest}

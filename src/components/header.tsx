@@ -10,32 +10,32 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        "navbar bg-base-100 border-2 border-black shadow-neo max-w-6xl w-full px-6",
+        "flex min-h-18 w-full max-w-6xl items-center justify-between border-b border-base-300 bg-base-100/90 px-2 py-3",
         className,
       )}
       {...rest}
     >
-      <div className="navbar-start">
-        <a href="/" className="flex items-center gap-3 transition-all group">
-          <div className="size-10 bg-black flex items-center justify-center shadow-neo-sm group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
-            <span className="text-white text-lg font-black select-none">
+      <div>
+        <a href="/" className="group flex items-center gap-3">
+          <div className="flex size-11 items-center justify-center rounded-sm bg-primary transition-colors duration-150 group-hover:bg-base-content">
+            <span className="select-none font-mono text-lg font-semibold text-primary-content">
               t.
             </span>
           </div>
           <div className="flex flex-col gap-0.5">
-            <h1 className="text-2xl font-black tracking-tighter leading-none">
+            <h1 className="text-[22px] font-semibold leading-none tracking-[-0.03em]">
               tappval
             </h1>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-base-content/50 font-bold">
+            <span className="hidden text-[11px] text-base-content/55 sm:block">
               Playground for Tappy
             </span>
           </div>
         </a>
       </div>
-      <div className="navbar-end gap-2">
+      <nav className="flex items-center gap-1" aria-label="Project links">
         <a
           href="https://github.com/tahmarrrr23/tappval"
-          className="btn btn-sm border-2 border-black font-bold uppercase text-xs tracking-wider hover:-translate-y-0.5 hover:shadow-neo-sm active:translate-y-0 active:shadow-none transition-all"
+          className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-sm px-3.5 text-sm font-medium text-base-content/70 transition-colors duration-150 hover:bg-base-200 hover:text-base-content focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -44,14 +44,14 @@ export const Header = (props: HeaderProps) => {
         </a>
         <a
           href="https://github.com/yahoojapan/tappy"
-          className="btn btn-sm border-2 border-black font-bold uppercase text-xs tracking-wider hover:-translate-y-0.5 hover:shadow-neo-sm active:translate-y-0 active:shadow-none transition-all"
+          className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-sm px-3.5 text-sm font-medium text-base-content/70 transition-colors duration-150 hover:bg-base-200 hover:text-base-content focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           target="_blank"
           rel="noopener noreferrer"
         >
           Tappy
           <ExternalLinkIcon />
         </a>
-      </div>
+      </nav>
     </header>
   );
 };

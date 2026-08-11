@@ -1,4 +1,4 @@
-import { globalFont } from "@/lib/font";
+import { bodyFont, monoFont } from "@/lib/font";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 
@@ -16,7 +16,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="lofi"
-      className={`${globalFont.className} antialiased`}
+      className={`${bodyFont.variable} ${monoFont.variable} antialiased`}
     >
       <body>{children}</body>
     </html>
